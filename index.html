@@ -16,8 +16,11 @@
         </div>
         <p class="mt-3">日付</p>
         <div>
-           <input type="date" id="setDate">
-　　　　　　　<pre title="./js/main.js"></pre>
+var cleave = new Cleave('.input-element', {
+    date: true,
+    delimiter: '-',
+    datePattern: ['Y', 'm', 'd']
+});
         </div>
         <p class="mt-3">腹筋</p>
         <div>
