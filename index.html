@@ -16,7 +16,7 @@
         </div>
         <p class="mt-3">日付</p>
         <div>
-　　　　　<input class="form-control w-100 mt-1" name="fukkin" required>
+　　　　　　　<input type="date" id="today"　name="udetate" required>
         </div>
         <p class="mt-3">稼働現場</p>
         <div>
@@ -32,7 +32,7 @@
         </div>
         <p class="mt-3">備考</p>
         <div>
-            <input class="form-control w-100 mt-1" name="name" >
+            <input class="form-control w-100 mt-1" name="biko" >
         </div>
         <input type="submit" class="mt-4 btn btn-primary" value="送信">
     </form>
@@ -77,11 +77,12 @@
             $('form').submit(function () {
                 const name    = $('input[name="name"]').val();
                 const udetate = $('input[name="udetate"]').val();
-                const fukkin  = $('input[name="fukkin"]').val();
+                const fukkin = $('input[name="fukkin"]').val();
                 const haikin  = $('input[name="haikin"]').val();
                 const sukuwat = $('input[name="sukuwat"]').val();
+                const sukuwat = $('input[name="biko"]').val();
                 
-                const msg = `${name}\n${udetate}\n${fukkin}\n${haikin}\n${sukuwat}`;
+                const msg = `${name}\n${udetate}\n${fukkin}\n${haikin}\n${sukuwat}\n${biko}`;
                 sendText(msg);
 
                 return false;
