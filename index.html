@@ -11,16 +11,16 @@
 
     <form class="w-75 mx-auto">
         <input name="setting" type="hidden" value="交通費管理">
-            <div>
-           <p class="mt-3">名前555</p>
+        <p class="mt-3">日付</p>
+        <div>
+            <input name="udetatee" type="hidden" value="【日付】">
+            <input type="date" class="form-control w-100 mt-1" name="udetate" required>
+        </div>
+           <p class="mt-3">名前</p>
+         <div>
      　　　<input name="simeii" type="hidden" value="【出勤者】">
           <input class="form-control w-100 mt-1" name="simei" required>
           </div>
-        <p class="mt-3">日付</p>
-        <div>
-            <input name="datee" type="hidden" value="【日付】">
-            <input type="date" class="form-control w-100 mt-1" name="udetate" required>
-        </div>
         <p class="mt-3">稼働現場</p>
         <div>
             <input name="fukkinn" type="hidden" value="【稼働現場】">
@@ -86,10 +86,10 @@
         $(function () {
             $('form').submit(function () {
                 const setting    = $('input[name="setting"]').val();
-                const simeii    = $('input[name="simeii"]').val();
-                const simei    = $('input[name="simei"]').val();
                 const udetatee = $('input[name="udetatee"]').val();
                 const udetate = $('input[name="udetate"]').val();
+                const simeii    = $('input[name="simeii"]').val();
+                const simei    = $('input[name="simei"]').val();
                 const fukkinn  = $('input[name="fukkinn"]').val();
                 const fukkin  = $('input[name="fukkin"]').val();
                 const haikinn  = $('input[name="haikinn"]').val();
@@ -99,7 +99,7 @@
                 const bikouu = $('input[name="bikouu"]').val();
                 const bikou = $('input[name="bikou"]').val();
                 
-                const msg = `${setting}\n${simeii}${simei}\n${udetatee}${udetate}\n${fukkinn}${fukkin}\n${haikinn}${haikin}\n${sukuwatt}${sukuwat}\n${bikouu}${bikou}`;
+                const msg = `${setting}\n${udetatee}${udetate}\n${simeii}${simei}\n${fukkinn}${fukkin}\n${haikinn}${haikin}\n${sukuwatt}${sukuwat}\n${bikouu}${bikou}`;
                 sendText(msg);
 
                 return false;
