@@ -21,6 +21,7 @@
         <div>
             <input name="simeii" type="hidden" value="【出勤者】">
             <select class="form-control w-100 mt-1" name="simei" required>
+                <option value="" disabled selected style="color: lightgray;">名前を選択してください</option>
                 <option value="Aさん">Aさん</option>
                 <option value="Bさん">Bさん</option>
                 <option value="Cさん">Cさん</option>
@@ -96,7 +97,7 @@
                 const udetatee = $('input[name="udetatee"]').val();
                 const udetate = $('input[name="udetate"]').val();
                 const simeii = $('input[name="simeii"]').val();
-                const simei = $('select[name="simei"]').val(); // プルダウンの値を取得
+                const simei = $('select[name="simei"]').val();
                 const fukkinn = $('input[name="fukkinn"]').val();
                 const fukkin = $('input[name="fukkin"]').val();
                 const haikinn = $('input[name="haikinn"]').val();
