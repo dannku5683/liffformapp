@@ -79,10 +79,10 @@
             });
         }
 
-        function sendText(data) {
+        function sendText(text) {
             liff.sendMessages([{
                 'type': 'text',
-                'text': JSON.stringify(data) // JSON形式で送信
+                'text': text
             }]).then(function () {
                 liff.closeWindow();
             }).catch(function (error) {
@@ -96,26 +96,23 @@
         $(function () {
             $('form').submit(function () {
                 const setting = $('input[name="setting"]').val();
+                const udetatee = $('input[name="udetatee"]').val();
                 const udetate = $('input[name="udetate"]').val();
+                const simeii = $('input[name="simeii"]').val();
                 const simei = $('select[name="simei"]').val();
+                const fukkinn = $('input[name="fukkinn"]').val();
                 const fukkin = $('input[name="fukkin"]').val();
+                const haikinn = $('input[name="haikinn"]').val();
                 const haikin = $('input[name="haikin"]').val();
+                const sukuwatt = $('input[name="sukuwatt"]').val();
                 const sukuwat = $('input[name="sukuwat"]').val();
+                const sukuwatt2 = $('input[name="sukuwatt2"]').val();
                 const sukuwat2 = $('input[name="sukuwat2"]').val();
+                const bikouu = $('input[name="bikouu"]').val();
                 const bikou = $('input[name="bikou"]').val();
 
-                const data = {
-                    setting: setting,
-                    udetate: udetate,
-                    simei: simei,
-                    fukkin: fukkin,
-                    haikin: haikin,
-                    sukuwat: sukuwat,
-                    sukuwat2: sukuwat2,
-                    bikou: bikou
-                };
-
-                sendText(data); // JSON形式のデータを送信
+                const msg = `${setting}\n${udetatee}${udetate}\n${simeii}${simei}\n${fukkinn}${fukkin}\n${haikinn}${haikin}\n${sukuwatt}${sukuwat}\n${sukuwatt2}${sukuwat2}\n${bikouu}${bikou}`;
+                sendText(msg);
 
                 return false;
             });
