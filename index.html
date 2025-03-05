@@ -37,15 +37,17 @@
         <p class="mt-3">代理店</p>
         <div>
             <input name="haikinn" type="hidden" value="【代理店】">
-            <label><input type="radio" name="haikin" value="コストコ">コストコ</label>
+            <input class="form-control w-100 mt-1" name="haikin" required> 
         </div>
+        <p class="mt-3">イベント種類</p>
         <div>
-            <label><input type="radio" name="haikin" value="その他" checked>その他</label>
-        </div>
-        <p class="mt-3">交通費</p>
-        <div>
-            <input name="sukuwatt" type="hidden" value="【交通費】">
+            <input name="sukuwatt" type="hidden" value="【イベント種類】">
             <input class="form-control w-100 mt-1" name="sukuwat" required>
+        </div>
+        <p class="mt-3">イベントコンテンツ</p>
+        <div>
+            <input name="sukuwatt2" type="hidden" value="【イベントコンテンツ】">
+            <input class="form-control w-100 mt-1" name="sukuwat2" required>
         </div>
         <p class="mt-3">備考欄</p>
         <div>
@@ -104,6 +106,8 @@
                 const haikin = $('input[name="haikin"]:checked').val();
                 const sukuwatt = $('input[name="sukuwatt"]').val();
                 const sukuwat = $('input[name="sukuwat"]').val();
+                const sukuwatt2 = $('input[name="sukuwatt"]').val();
+                const sukuwat2 = $('input[name="sukuwat"]').val();
                 const bikouu = $('input[name="bikouu"]').val();
                 const bikou = $('input[name="bikou"]').val();
 
