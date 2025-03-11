@@ -75,6 +75,32 @@
             </select>
         </div>
 
+        <p class="mt-3">参加人数【docomo】</p>
+        <div class="row">
+            <div class="col">
+                <label>〜13:00</label>
+                <select class="form-control" name="san13">
+                    <script>
+                        for (let i = 0; i <= 500; i++) {
+                            document.write(`<option value="${i}">${i}</option>`);
+                        }
+                    </script>
+                </select>
+            </div>
+            <div class="col">
+                <label>〜16:00</label>
+                <input type="number" class="form-control" name="san16">
+            </div>
+            <div class="col">
+                <label>ラスト</label>
+                <input type="number" class="form-control" name="sanlast">
+            </div>
+            <div class="col">
+                <label>トータル</label>
+                <input type="number" class="form-control" name="santotal">
+            </div>
+        </div>
+
         <p class="mt-3">備考欄</p>
         <div>
             <input name="bikouu" type="hidden" value="【備考】">
@@ -91,11 +117,7 @@
     <script>
         $(function () {
             $('form').submit(function () {
-                const mokuhyousuuji = $('input[name="mokuhyousuuji"]').val();
-                const mokuhyou = $('select[name="mokuhyou"]').val();
-                const jissekisuuji = $('input[name="jissekisuuji"]').val();
-                const jisseki = $('select[name="jisseki"]').val();
-                const msg = `${setting}\n${udetatee}${udetate}\n${simeii}${simei}\n${fukkinn}${fukkin}\n${haikinn}${haikin}\n${sukuwatt}${sukuwat}\n${sukuwatt2}${sukuwat2}\n${mokuhyousuuji}${mokuhyou}\n${jissekisuuji}${jisseki}\n${bikouu}${bikou}`;
+                const msg = `${setting}\n${udetatee}${udetate}\n${simeii}${simei}\n${fukkinn}${fukkin}\n${haikinn}${haikin}\n${sukuwatt}${sukuwat}\n${sukuwatt2}${sukuwat2}\n${mokuhyousuuji}${mokuhyou}\n${jissekisuuji}${jisseki}\n参加人数【docomo】 〜13:00 ${$('select[name="san13"]').val()} 〜16:00 ${$('input[name="san16"]').val()} ラスト ${$('input[name="sanlast"]').val()} トータル ${$('input[name="santotal"]').val()}\n${bikouu}${bikou}`;
                 sendText(msg);
                 return false;
             });
