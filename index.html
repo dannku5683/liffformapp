@@ -6,9 +6,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
+    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
 </head>
 <body>
-    <form class="w-75 mx-auto">
+    <form class="w-75 mx-auto" id="reportForm">
         <input name="setting" type="hidden" value="MIXCUBE報告">
         <p class="mt-3">日付</p>
         <div>
@@ -58,7 +59,6 @@
                         document.write(`<option value="${i}">${i}</option>`);
                     }
                 </script>
-                <option value="その他">その他（備考欄に記入）</option>
             </select>
         </div>
 
@@ -71,33 +71,26 @@
                         document.write(`<option value="${i}">${i}</option>`);
                     }
                 </script>
-                <option value="その他">その他（備考欄に記入）</option>
             </select>
         </div>
 
         <p class="mt-3">参加人数【docomo】</p>
         <div class="row">
             <div class="col">
-                <label>13:00</label>
-                <select class="form-control" name="san13">
-                    <script>
-                        for (let i = 0; i <= 500; i++) {
-                            document.write(`<option value="${i}">${i}</option>`);
-                        }
-                    </script>
-                </select>
+                <label>〜13:00</label>
+                <select class="form-control" name="san13"></select>
             </div>
             <div class="col">
-                <label>16:00</label>
-                <input type="number" class="form-control" name="san16">
+                <label>〜16:00</label>
+                <select class="form-control" name="san16"></select>
             </div>
             <div class="col">
-                <label>last</label>
-                <input type="number" class="form-control" name="sanlast">
+                <label>ラスト</label>
+                <select class="form-control" name="sanlast"></select>
             </div>
             <div class="col">
-                <label>total</label>
-                <input type="number" class="form-control" name="santotal">
+                <label>トータル</label>
+                <select class="form-control" name="santotal"></select>
             </div>
         </div>
 
@@ -109,18 +102,27 @@
         <input type="submit" class="mt-4 btn btn-primary" value="送信">
     </form>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
-    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
     <script>
-        $(function () {
-            $('form').submit(function () {
-                const msg = `${setting}\n${udetatee}${udetate}\n${simeii}${simei}\n${fukkinn}${fukkin}\n${haikinn}${haikin}\n${sukuwatt}${sukuwat}\n${sukuwatt2}${sukuwat2}\n${mokuhyousuuji}${mokuhyou}\n${jissekisuuji}${jisseki}\n参加人数【docomo】 〜13:00 ${$('select[name="san13"]').val()} 〜16:00 ${$('input[name="san16"]').val()} ラスト ${$('input[name="sanlast"]').val()} トータル ${$('input[name="santotal"]').val()}\n${bikouu}${bikou}`;
-                sendText(msg);
-                return false;
+        $(document).ready(function () {
+            const liffId = "1657152375-J11bemej";
+            liff.init({ liffId: liffId }).catch((err) => console.log('LIFF Initialization failed ', err));
+        });
+
+        function sendText(text) {
+            liff.sendMessages([{ 'type': 'text', 'text': text }])
+                .then(() => liff.closeWindow())
+                .catch(error => alert('Failed to send message ' + error));
+        }
+
+        $("#reportForm").submit(function (event) {
+            event.preventDefault();
+            let msg = "MIXCUBE報告\n";
+            $("#reportForm input, #reportForm select").each(function () {
+                if ($(this).attr("name")) {
+                    msg += $(this).prev("input[type='hidden']").val() + $(this).val() + "\n";
+                }
             });
+            sendText(msg);
         });
     </script>
 </body>
