@@ -10,7 +10,7 @@
     <form class="w-75 mx-auto" id="reportForm">
         <input name="setting" type="hidden" value="MIXCUBE報告">
 
-        <p class="mt-3">▲日付</p>
+        <p class="mt-3">★日付</p>
         <div>
             <input name="udetatee" type="hidden" value="【日付】">
             <input type="date" class="form-control w-100 mt-1" name="udetate" required>
@@ -125,7 +125,10 @@
             // 参加人数のデータを追加
             let carriers = ["docomo", "ahamo", "au", "UQ mobile", "SoftBank", "Y!mobile"];
             carriers.forEach(carrier => {
-                msg += `【${carrier}】13:00: ${$(`select[name='${carrier}13']`).val()}, 16:00: ${$(`select[name='${carrier}16']`).val()}, Last: ${$(`select[name='${carrier}Last']`).val()}, Total: ${$(`input[name='${carrier}Total']`).val()}\n`;
+                msg += `【${carrier}：13:00】${$(`select[name='${carrier}13']`).val()}\n`;
+                msg += `【${carrier}：16:00】${$(`select[name='${carrier}16']`).val()}\n`;
+                msg += `【${carrier}：Last】${$(`select[name='${carrier}Last']`).val()}\n`;
+                msg += `【${carrier}：Total】${$(`input[name='${carrier}Total']`).val()}\n`;
             });
 
             sendText(msg);
