@@ -10,7 +10,7 @@
     <form class="w-75 mx-auto" id="reportForm">
         <input name="setting" type="hidden" value="MIXCUBE報告">
 
-        <p class="mt-3">日付</p>
+        <p class="mt-3">★日付</p>
         <div>
             <input name="udetatee" type="hidden" value="【日付】">
             <input type="date" class="form-control w-100 mt-1" name="udetate" required>
@@ -64,7 +64,7 @@
             <select class="form-control number-select" name="jisseki"></select>
         </div>
 
-        <p class="mt-3">●参加人数</p>
+        <p class="mt-3">参加人数</p>
         <div id="carrier-section">
             <script>
                 let carriers = ["docomo", "ahamo"];
@@ -92,6 +92,11 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
         $(document).ready(function () {
+            const liffId = "1656931265-5AekoPAy"; // ✅ LIFF ID 設定
+            liff.init({ liffId: liffId })
+                .then(() => console.log("✅ LIFF 初期化成功"))
+                .catch(err => console.error("❌ LIFF 初期化失敗", err));
+
             for (let i = 0; i <= 500; i++) {
                 $(".time-select, .number-select").append(`<option value="${i}">${i}</option>`);
             }
@@ -99,9 +104,9 @@
             $(".time-select").on("change", function () {
                 let carriers = ["docomo", "ahamo"];
                 carriers.forEach(carrier => {
-                    let total = parseInt($(`select[name='${carrier}13']`).val()) + 
-                                parseInt($(`select[name='${carrier}16']`).val()) + 
-                                parseInt($(`select[name='${carrier}Last']`).val());
+                    let total = (parseInt($(`select[name='${carrier}13']`).val()) || 0) + 
+                                (parseInt($(`select[name='${carrier}16']`).val()) || 0) + 
+                                (parseInt($(`select[name='${carrier}Last']`).val()) || 0);
                     $(`input[name='${carrier}Total']`).val(total);
                 });
             });
