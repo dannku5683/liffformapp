@@ -10,7 +10,7 @@
     <form class="w-75 mx-auto" id="reportForm">
         <input name="setting" type="hidden" value="MIXCUBE報告">
 
-        <p class="mt-3">▲日付</p>
+        <p class="mt-3">★日付</p>
         <div>
             <input name="udetatee" type="hidden" value="【日付】">
             <input type="date" class="form-control w-100 mt-1" name="udetate" required>
@@ -74,7 +74,7 @@
                         <div class="col"><label>13:00</label><select class="form-control time-select" name="${carrier}13"></select></div>
                         <div class="col"><label>16:00</label><select class="form-control time-select" name="${carrier}16"></select></div>
                         <div class="col"><label>Last</label><select class="form-control time-select" name="${carrier}Last"></select></div>
-                        <div class="col"><label>Total</label><input type="number" class="form-control" name="${carrier}Total" readonly></div>
+                        <div class="col"><label>Total</label><input type="number" class="form-control" name="${carrier}Total" value="0" readonly></div>
                     </div>
                 `).join(""));
             </script>
