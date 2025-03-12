@@ -10,7 +10,7 @@
     <form class="w-75 mx-auto" id="reportForm">
         <input name="setting" type="hidden" value="MIXCUBE報告">
 
-        <p class="mt-3">日付</p>
+        <p class="mt-3">★日付</p>
         <div>
             <input name="udetatee" type="hidden" value="【日付】">
             <input type="date" class="form-control w-100 mt-1" name="udetate" required>
@@ -116,8 +116,10 @@
             event.preventDefault();
             let msg = "MIXCUBE報告\n";
             $("input, select").each(function () {
-                let label = $(this).prev("input[type='hidden']").val();
-                if (label) msg += `${label}${$(this).val()}\n`;
+                let hiddenLabel = $(this).prev("input[type='hidden']").val();
+                if (hiddenLabel) {
+                    msg += hiddenLabel + $(this).val() + "\n";
+                }
             });
 
             sendText(msg);
