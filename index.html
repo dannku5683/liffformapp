@@ -4,8 +4,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MIXCUBE報告</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
     <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
 </head>
 <body>
@@ -74,78 +72,76 @@
         <div class="row">
             <div class="col">
                 <label>13:00</label>
-                <select class="form-control time-select" name="san13">
-                    <option value="0" selected>0</option>
-                </select>
+                <select class="form-control time-select" name="docomo13"></select>
             </div>
             <div class="col">
                 <label>16:00</label>
-                <select class="form-control time-select" name="san16">
-                    <option value="0" selected>0</option>
-                </select>
+                <select class="form-control time-select" name="docomo16"></select>
             </div>
             <div class="col">
                 <label>Last</label>
-                <select class="form-control time-select" name="sanlast">
-                    <option value="0" selected>0</option>
-                </select>
+                <select class="form-control time-select" name="docomoLast"></select>
             </div>
             <div class="col">
                 <label>Total</label>
-                <input type="number" class="form-control" name="santotal" readonly>
+                <input type="number" class="form-control" name="docomoTotal" readonly>
             </div>
         </div>
 
-        <p class="mt-3">備考欄</p>
-        <div>
-            <input name="bikouu" type="hidden" value="【備考】">
-            <input class="form-control w-100 mt-1" name="bikou">
+        <p class="mt-3">参加人数【ahamo】</p>
+        <div class="row">
+            <div class="col">
+                <label>13:00</label>
+                <select class="form-control time-select" name="ahamo13"></select>
+            </div>
+            <div class="col">
+                <label>16:00</label>
+                <select class="form-control time-select" name="ahamo16"></select>
+            </div>
+            <div class="col">
+                <label>Last</label>
+                <select class="form-control time-select" name="ahamoLast"></select>
+            </div>
+            <div class="col">
+                <label>Total</label>
+                <input type="number" class="form-control" name="ahamoTotal" readonly>
+            </div>
         </div>
 
         <input type="submit" class="mt-4 btn btn-primary" value="送信">
     </form>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
     <script>
         $(document).ready(function () {
-            const liffId = "1657152375-J11bemej";
-            liff.init({ liffId: liffId }).catch((err) => console.log('LIFF Initialization failed ', err));
-
             for (let i = 0; i <= 500; i++) {
                 $(".time-select, .number-select").append(`<option value="${i}">${i}</option>`);
             }
 
             $(".time-select").on("change", function () {
-                let total = parseInt($("select[name='san13']").val()) + 
-                            parseInt($("select[name='san16']").val()) + 
-                            parseInt($("select[name='sanlast']").val());
-                $("input[name='santotal']").val(total);
+                let carriers = ["docomo", "ahamo"];
+                carriers.forEach(carrier => {
+                    let total = parseInt($(`select[name='${carrier}13']`).val()) + 
+                                parseInt($(`select[name='${carrier}16']`).val()) + 
+                                parseInt($(`select[name='${carrier}Last']`).val());
+                    $(`input[name='${carrier}Total']`).val(total);
+                });
             });
         });
-
-        function sendText(text) {
-            liff.sendMessages([{ 'type': 'text', 'text': text }])
-                .then(() => liff.closeWindow())
-                .catch(error => alert('Failed to send message ' + error));
-        }
 
         $("#reportForm").submit(function (event) {
             event.preventDefault();
             let msg = "MIXCUBE報告\n";
             let fields = ["udetate", "simei", "fukkin", "haikin", "sukuwat", "sukuwat2", "mokuhyou", "jisseki"];
             fields.forEach(field => {
-                msg += $(`input[name='${field}'], select[name='${field}']`).prev("input[type='hidden']").val() + $(`input[name='${field}'], select[name='${field}']`).val() + "\n";
+                msg += $(`input[name='${field}'], select[name='${field}']`).prev("input[type='hidden']").val() +
+                       $(`input[name='${field}'], select[name='${field}']`).val() + "\n";
             });
 
-            msg += `【参加人数（docomo：13:00）】${$("select[name='san13']").val()}\n`;
-            msg += `【参加人数（docomo：16:00）】${$("select[name='san16']").val()}\n`;
-            msg += `【参加人数（docomo：Last）】${$("select[name='sanlast']").val()}\n`;
-            msg += `【参加人数（docomo：Total）】${$("input[name='santotal']").val()}\n`;
-
-            if ($("input[name='bikou']").val()) {
-                msg += `【備考】${$("input[name='bikou']").val()}\n`;
-            }
+            let carriers = ["docomo", "ahamo"];
+            carriers.forEach(carrier => {
+                msg += `【参加人数（${carrier}）】${$("input[name='"+carrier+"Total']").val()}\n`;
+            });
 
             sendText(msg);
         });
