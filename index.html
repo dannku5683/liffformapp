@@ -10,7 +10,7 @@
     <form class="w-75 mx-auto" id="reportForm">
         <input name="setting" type="hidden" value="MIXCUBE報告">
 
-        <p class="mt-3">▲日付</p>
+        <p class="mt-3">★日付</p>
         <div>
             <input name="udetatee" type="hidden" value="【日付】">
             <input type="date" class="form-control w-100 mt-1" name="udetate" required>
@@ -26,6 +26,14 @@
                 <option value="兵頭健人">兵頭健人</option>
                 <option value="その他（備考欄に記入）">その他（備考欄に記入）</option>
             </select>
+        </div>
+
+        <p class="mt-3">イベント入職人数</p>
+        <div class="row">
+            <div class="col"><label>MC</label><select class="form-control time-select" name="mc"></select></div>
+            <div class="col"><label>クローザー</label><select class="form-control time-select" name="closer"></select></div>
+            <div class="col"><label>キャッチ</label><select class="form-control time-select" name="catch"></select></div>
+            <div class="col"><label>合計</label><input type="number" class="form-control" name="total_ninzu" value="0" readonly></div>
         </div>
 
         <p class="mt-3">稼働現場</p>
@@ -69,11 +77,11 @@
             <script>
                 let carriers = ["docomo", "ahamo", "au", "UQ mobile", "SoftBank", "Y!mobile", "楽天", "格安"];
                 document.write(carriers.map(carrier => `
-                    <p class="mt-3">【${carrier}】</p>
-                    <div class="row">
-                        <div class="col"><label>13:00</label><select class="form-control time-select" name="${carrier}13"></select></div>
-                        <div class="col"><label>16:00</label><select class="form-control time-select" name="${carrier}16"></select></div>
-                        <div class="col"><label>Last</label><select class="form-control time-select" name="${carrier}Last"></select></div>
+                    <p class="mt-3">【<span class="math-inline">\{carrier\}】</p\>
+<div class\="row"\>
+<div class\="col"\><label\>13\:00</label\><select class\="form\-control time\-select" name\="</span>{carrier}13"></select></div>
+                        <div class="col"><label>16:00</label><select class="form-control time-select" name="<span class="math-inline">\{carrier\}16"\></select\></div\>
+<div class\="col"\><label\>Last</label\><select class\="form\-control time\-select" name\="</span>{carrier}Last"></select></div>
                         <div class="col"><label>Total</label><input type="number" class="form-control" name="${carrier}Total" value="0" readonly></div>
                     </div>
                 `).join(""));
@@ -98,7 +106,7 @@
                 .catch(err => console.error("❌ LIFF 初期化失敗", err));
 
             for (let i = 0; i <= 500; i++) {
-                $(".time-select, .number-select").append(`<option value="${i}">${i}</option>`);
+                $(".time-select, .number-select").append(`<option value="<span class="math-inline">\{i\}"\></span>{i}</option>`);
             }
 
             $(".time-select").on("change", function () {
@@ -109,6 +117,11 @@
                                 (parseInt($(`select[name='${carrier}Last']`).val()) || 0);
                     $(`input[name='${carrier}Total']`).val(total);
                 });
+
+                let total_ninzu = (parseInt($(`select[name='mc']`).val()) || 0) +
+                                (parseInt($(`select[name='closer']`).val()) || 0) +
+                                (parseInt($(`select[name='catch']`).val()) || 0);
+                $(`input[name='total_ninzu']`).val(total_ninzu);
             });
         });
 
@@ -122,23 +135,28 @@
                 }
             });
 
+            msg += `【イベント入職人数：MC】<span class="math-inline">\{</span>(`select[name='mc']`).val()}\n`;
+            msg += `【イベント入職人数：クローザー】<span class="math-inline">\{</span>(`select[name='closer']`).val()}\n`;
+            msg += `【イベント入職人数：キャッチ】<span class="math-inline">\{</span>(`select[name='catch']`).val()}\n`;
+            msg += `【イベント入職人数：合計】<span class="math-inline">\{</span>(`input[name='total_ninzu']`).val()}\n`;
+
             // 参加人数のデータを追加
             let carriers = ["docomo", "ahamo", "au", "UQ mobile", "SoftBank", "Y!mobile", "楽天", "格安"];
-            carriers.forEach(carrier => {
-                msg += `【${carrier}：13:00】${$(`select[name='${carrier}13']`).val()}\n`;
-                msg += `【${carrier}：16:00】${$(`select[name='${carrier}16']`).val()}\n`;
-                msg += `【${carrier}：Last】${$(`select[name='${carrier}Last']`).val()}\n`;
-                msg += `【${carrier}：Total】${$(`input[name='${carrier}Total']`).val()}\n`;
-            });
+carriers.forEach(carrier => {
+msg += 【${carrier}：13:00】${$(select[name='${carrier}13']).val()}\n;
+msg += 【${carrier}：16:00】${$(select[name='${carrier}16']).val()}\n;
+msg += 【${carrier}：Last】${$(select[name='${carrier}Last']).val()}\n;
+msg += 【${carrier}：Total】${$(input[name='${carrier}Total']).val()}\n;
+});
 
-            sendText(msg);
-        });
+        sendText(msg);
+    });
 
-        function sendText(text) {
-            liff.sendMessages([{ 'type': 'text', 'text': text }])
-                .then(() => liff.closeWindow())
-                .catch(error => alert('Failed to send message ' + error));
-        }
-    </script>
+    function sendText(text) {
+        liff.sendMessages([{ 'type': 'text', 'text': text }])
+            .then(() => liff.closeWindow())
+            .catch(error => alert('Failed to send message ' + error));
+    }
+</script>
 </body>
 </html>
