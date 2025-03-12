@@ -55,57 +55,35 @@
         <p class="mt-3">目標数字</p>
         <div>
             <input name="mokuhyouu" type="hidden" value="【目標数字】">
-            <select class="form-control number-select" name="mokuhyou">
-                <option value="0" selected>0</option>
-            </select>
+            <select class="form-control number-select" name="mokuhyou"></select>
         </div>
 
         <p class="mt-3">実績数字</p>
         <div>
             <input name="jissekii" type="hidden" value="【実績数字】">
-            <select class="form-control number-select" name="jisseki">
-                <option value="0" selected>0</option>
-            </select>
+            <select class="form-control number-select" name="jisseki"></select>
         </div>
 
-        <p class="mt-3">参加人数【docomo】</p>
-        <div class="row">
-            <div class="col">
-                <label>13:00</label>
-                <select class="form-control time-select" name="docomo13"></select>
-            </div>
-            <div class="col">
-                <label>16:00</label>
-                <select class="form-control time-select" name="docomo16"></select>
-            </div>
-            <div class="col">
-                <label>Last</label>
-                <select class="form-control time-select" name="docomoLast"></select>
-            </div>
-            <div class="col">
-                <label>Total</label>
-                <input type="number" class="form-control" name="docomoTotal" readonly>
-            </div>
+        <p class="mt-3">参加人数</p>
+        <div id="carrier-section">
+            <script>
+                let carriers = ["docomo", "ahamo"];
+                document.write(carriers.map(carrier => `
+                    <p class="mt-3">【${carrier}】</p>
+                    <div class="row">
+                        <div class="col"><label>13:00</label><select class="form-control time-select" name="${carrier}13"></select></div>
+                        <div class="col"><label>16:00</label><select class="form-control time-select" name="${carrier}16"></select></div>
+                        <div class="col"><label>Last</label><select class="form-control time-select" name="${carrier}Last"></select></div>
+                        <div class="col"><label>Total</label><input type="number" class="form-control" name="${carrier}Total" readonly></div>
+                    </div>
+                `).join(""));
+            </script>
         </div>
 
-        <p class="mt-3">参加人数【ahamo】</p>
-        <div class="row">
-            <div class="col">
-                <label>13:00</label>
-                <select class="form-control time-select" name="ahamo13"></select>
-            </div>
-            <div class="col">
-                <label>16:00</label>
-                <select class="form-control time-select" name="ahamo16"></select>
-            </div>
-            <div class="col">
-                <label>Last</label>
-                <select class="form-control time-select" name="ahamoLast"></select>
-            </div>
-            <div class="col">
-                <label>Total</label>
-                <input type="number" class="form-control" name="ahamoTotal" readonly>
-            </div>
+        <p class="mt-3">備考欄</p>
+        <div>
+            <input name="bikouu" type="hidden" value="【備考】">
+            <input class="form-control w-100 mt-1" name="bikou">
         </div>
 
         <input type="submit" class="mt-4 btn btn-primary" value="送信">
@@ -140,11 +118,25 @@
 
             let carriers = ["docomo", "ahamo"];
             carriers.forEach(carrier => {
-                msg += `【参加人数（${carrier}）】${$("input[name='"+carrier+"Total']").val()}\n`;
+                msg += `【参加人数（${carrier}：13:00）】${$("select[name='"+carrier+"13']").val()}\n`;
+                msg += `【参加人数（${carrier}：16:00）】${$("select[name='"+carrier+"16']").val()}\n`;
+                msg += `【参加人数（${carrier}：Last）】${$("select[name='"+carrier+"Last']").val()}\n`;
+                msg += `【参加人数（${carrier}：Total）】${$("input[name='"+carrier+"Total']").val()}\n`;
             });
+
+            let bikou = $("input[name='bikou']").val();
+            if (bikou) {
+                msg += `【備考】${bikou}\n`;
+            }
 
             sendText(msg);
         });
+
+        function sendText(text) {
+            liff.sendMessages([{ 'type': 'text', 'text': text }])
+                .then(() => liff.closeWindow())
+                .catch(error => alert('Failed to send message ' + error));
+        }
     </script>
 </body>
 </html>
