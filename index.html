@@ -10,7 +10,7 @@
     <form class="w-75 mx-auto" id="reportForm">
         <input name="setting" type="hidden" value="MIXCUBE報告">
 
-        <p class="mt-3">★日付</p>
+        <p class="mt-3">●日付</p>
         <div>
             <input name="udetatee" type="hidden" value="【日付】">
             <input type="date" class="form-control w-100 mt-1" name="udetate" required>
@@ -67,7 +67,7 @@
         <p class="mt-3">参加人数</p>
         <div id="carrier-section">
             <script>
-                let carriers = ["docomo", "ahamo", "au"];
+                let carriers = ["docomo", "ahamo", "au", "UQ mobile", "SoftBank", "Y!mobile"];
                 document.write(carriers.map(carrier => `
                     <p class="mt-3">【${carrier}】</p>
                     <div class="row">
@@ -102,7 +102,7 @@
             }
 
             $(".time-select").on("change", function () {
-                let carriers = ["docomo", "ahamo", "au"];
+                let carriers = ["docomo", "ahamo", "au", "UQ mobile", "SoftBank", "Y!mobile"];
                 carriers.forEach(carrier => {
                     let total = (parseInt($(`select[name='${carrier}13']`).val()) || 0) + 
                                 (parseInt($(`select[name='${carrier}16']`).val()) || 0) + 
@@ -115,24 +115,12 @@
         $("#reportForm").submit(function (event) {
             event.preventDefault();
             let msg = "MIXCUBE報告\n";
-            let fields = ["udetate", "simei", "fukkin", "haikin", "sukuwat", "sukuwat2", "mokuhyou", "jisseki"];
-            fields.forEach(field => {
-                msg += $(`input[name='${field}'], select[name='${field}']`).prev("input[type='hidden']").val() +
-                       $(`input[name='${field}'], select[name='${field}']`).val() + "\n";
+            $("input, select").each(function () {
+                let hiddenLabel = $(this).prev("input[type='hidden']").val();
+                if (hiddenLabel) {
+                    msg += hiddenLabel + $(this).val() + "\n";
+                }
             });
-
-            let carriers = ["docomo", "ahamo", "au"];
-            carriers.forEach(carrier => {
-                msg += `【参加人数（${carrier}：13:00）】${$("select[name='"+carrier+"13']").val()}\n`;
-                msg += `【参加人数（${carrier}：16:00）】${$("select[name='"+carrier+"16']").val()}\n`;
-                msg += `【参加人数（${carrier}：Last）】${$("select[name='"+carrier+"Last']").val()}\n`;
-                msg += `【参加人数（${carrier}：Total）】${$("input[name='"+carrier+"Total']").val()}\n`;
-            });
-
-            let bikou = $("input[name='bikou']").val();
-            if (bikou) {
-                msg += `【備考】${bikou}\n`;
-            }
 
             sendText(msg);
         });
