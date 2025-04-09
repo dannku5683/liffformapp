@@ -28,22 +28,29 @@
             </select>
         </div>
 
-        <p class="mt-3">イベント入職人数</p>
-        <div id="staffing-section">
-            <div class="row">
-                <div class="col"><p class="mt-3">MC</p></div>
-                <div class="col"><p class="mt-3">closer</p></div>
-                <div class="col"><p class="mt-3">catch</p></div>
-                <div class="col"><p class="mt-3"></p></div>
-            </div>
-            <div class="row **align-items-center**">
-                <div class="col"><select class="form-control staffing-select" name="mc"></select></div>
-                <div class="col"><select class="form-control staffing-select" name="closer"></select></div>
-                <div class="col"><select class="form-control staffing-select" name="catch"></select></div>
-                <div class="col"><label class="mt-3">Total</label><input type="number" class="form-control" name="staffingTotal" value="0" readonly></div>
-            </div>
+       <p class="mt-3">イベント入職人数</p>
+<div id="staffing-section">
+    <div class="row">
+        <div class="col"><p class="mt-3">MC</p></div>
+        <div class="col"><p class="mt-3">closer</p></div>
+        <div class="col"><p class="mt-3">catch</p></div>
+        <div class="col"><p class="mt-3">Total</p></div> <!-- ← ラベルを追加 -->
+    </div>
+    <div class="row align-items-center"> <!-- ← 修正ポイント -->
+        <div class="col">
+            <select class="form-control staffing-select" name="mc"></select>
         </div>
-
+        <div class="col">
+            <select class="form-control staffing-select" name="closer"></select>
+        </div>
+        <div class="col">
+            <select class="form-control staffing-select" name="catch"></select>
+        </div>
+        <div class="col">
+            <input type="number" class="form-control" name="staffingTotal" value="0" readonly>
+        </div>
+    </div>
+</div>
         <p class="mt-3">稼働現場</p>
         <div>
             <input name="fukkinn" type="hidden" value="【稼働現場】">
